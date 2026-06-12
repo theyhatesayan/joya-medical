@@ -52,7 +52,7 @@ export default function Home() {
       <ContactSection />
       <Footer />
       <WhatsappButton />
-      <FloatingCart />
+      {/* <FloatingCart /> */}
     </>
   );
 }
