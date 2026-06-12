@@ -395,13 +395,52 @@ export default function AdminPage() {
 
                 <p>💰 ₹{order.total}</p>
 
-                <p className="text-sm text-slate-500 mt-2 break-all">
-                  {order.products}
-                </p>
+                <div className="mt-3 space-y-2">
+                  {(() => {
+                    try {
+                      const items = JSON.parse(order.products);
 
-                <p>
+                      return items.map((item: any) => (
+                        <div
+                          key={item.id}
+                          className="bg-slate-100 rounded-xl p-3"
+                        >
+                          <p className="font-semibold text-slate-800">
+                            🛒 {item.name}
+                          </p>
+
+                          <p className="text-sm text-slate-600">
+                            Qty: {item.quantity || 1}
+                          </p>
+
+                          <p className="text-sm font-bold text-green-600">
+                            ₹ {item.price}
+                          </p>
+                        </div>
+                      ));
+                    } catch {
+                      return (
+                        <p className="text-sm text-slate-500">
+                          {order.products}
+                        </p>
+                      );
+                    }
+                  })()}
+                </div>
+
+                <p className="mt-3">
                   Status:
-                  <span className="font-bold ml-2">{order.status}</span>
+                  <span
+                    className={`ml-2 px-3 py-1 rounded-full text-white text-sm ${
+                      order.status === "Pending"
+                        ? "bg-yellow-500"
+                        : order.status === "Confirmed"
+                          ? "bg-green-600"
+                          : "bg-blue-600"
+                    }`}
+                  >
+                    {order.status}
+                  </span>
                 </p>
 
                 <div className="flex gap-2 mt-3">
