@@ -87,12 +87,12 @@ export default function ProductCard() {
         {filteredProducts.map((product) => (
           <FadeUp key={product.id}>
             <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-teal-600 hover:shadow-xl transition-all duration-300 flex flex-col">
-              <div className="relative h-72 bg-white border-b">
+              <div className="relative h-96 bg-white border-b p-4">
                 {product.image ? (
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain hover:scale-105 transition duration-300"
                   />
                 ) : null}
               </div>
@@ -102,13 +102,19 @@ export default function ProductCard() {
                   {product.name}
                 </h3>
 
-                <p className="text-teal-700 font-bold text-xl mt-2">
-                  {product.price}
+                <p className="text-emerald-600 font-extrabold text-3xl mt-3">
+                  ₹ {product.price}
                 </p>
 
                 <span className="inline-block mt-2 text-xs bg-teal-100 text-teal-700 px-3 py-1 rounded-full w-fit">
                   {product.category}
                 </span>
+
+                <div className="mt-3">
+                  <span className="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full">
+                    ✓ In Stock
+                  </span>
+                </div>
 
                 <ul className="mt-5 space-y-2 text-sm text-slate-700 grow">
                   <li>✓ {product.benefits}</li>
