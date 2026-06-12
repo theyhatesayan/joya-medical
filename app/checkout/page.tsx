@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useCart } from "../../context/CartContext";
+import { supabase } from "../../lib/supabase";
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -10,13 +11,12 @@ export default function CheckoutPage() {
   const [mobile, setMobile] = useState("");
   const [address, setAddress] = useState("");
 
-  const total = cart.reduce(
-    (sum, item) =>
-      sum + Number(item.price.replace("₹", "")) * item.quantity,
-    0
-  );
+  const total = cart.reduce((sum, item) => {
+    const price = parseInt(String(item.price).replace(/\D/g, "")) || 0;
+    return sum + price * item.quantity;
+  }, 0);
 
-  const sendWhatsapp = () => {
+  const sendWhatsapp = async () => {
     if (!name.trim()) {
       alert("Please enter your name");
       return;
@@ -46,10 +46,27 @@ export default function CheckoutPage() {
       .map(
         (item) =>
           `• ${item.name} × ${item.quantity} = ₹${
-            Number(item.price.replace("₹", "")) * item.quantity
-          }`
+            (parseInt(String(item.price).replace(/\D/g, "")) || 0) *
+            item.quantity
+          }`,
       )
       .join("\n");
+
+      const { error } = await supabase.from("orders").insert([
+  {
+    customer_name: name,
+    mobile: mobile,
+    address: address,
+    products: JSON.stringify(cart),
+    total: total.toString(),
+    status: "Pending",
+  },
+]);
+
+if (error) {
+  alert(error.message);
+  return;
+}
 
     const message = `
 🛒 NEW ORDER - JOYA Medical & General Store
@@ -71,7 +88,7 @@ Cash On Delivery (COD)
 
     window.open(
       `https://wa.me/919669913326?text=${encodeURIComponent(message)}`,
-      "_blank"
+      "_blank",
     );
 
     clearCart();
@@ -108,9 +125,7 @@ Cash On Delivery (COD)
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold mb-6">
-              Customer Details
-            </h2>
+            <h2 className="text-2xl font-bold mb-6">Customer Details</h2>
 
             <div className="space-y-4">
               <input
@@ -138,9 +153,7 @@ Cash On Delivery (COD)
 
               <div className="bg-slate-100 p-4 rounded-xl">
                 <h3 className="font-bold">Payment Method</h3>
-                <p className="mt-2">
-                  ✅ Cash On Delivery (COD)
-                </p>
+                <p className="mt-2">✅ Cash On Delivery (COD)</p>
               </div>
 
               <button
@@ -154,14 +167,10 @@ Cash On Delivery (COD)
 
           {/* Order Summary */}
           <div className="bg-white rounded-3xl p-8 shadow-xl border">
-            <h2 className="text-3xl font-black mb-6">
-              Order Summary
-            </h2>
+            <h2 className="text-3xl font-black mb-6">Order Summary</h2>
 
             {cart.length === 0 ? (
-              <p className="text-slate-500">
-                No Products Added
-              </p>
+              <p className="text-slate-500">No Products Added</p>
             ) : (
               <>
                 {cart.map((item) => (
@@ -170,16 +179,20 @@ Cash On Delivery (COD)
                     className="flex items-center justify-between py-4 border-b"
                   >
                     <div className="flex items-center gap-4">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-16 h-16 object-contain rounded-xl border bg-white p-2"
-                      />
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-16 h-16 object-contain rounded-xl border bg-white p-2"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 rounded-xl border bg-slate-100 flex items-center justify-center text-xs">
+                          No Image
+                        </div>
+                      )}
 
                       <div>
-                        <p className="font-semibold">
-                          {item.name}
-                        </p>
+                        <p className="font-semibold">{item.name}</p>
 
                         <p className="text-sm text-slate-500">
                           Qty: {item.quantity}
@@ -189,9 +202,8 @@ Cash On Delivery (COD)
 
                     <p className="font-bold">
                       ₹
-                      {Number(
-                        item.price.replace("₹", "")
-                      ) * item.quantity}
+                      {(parseInt(String(item.price).replace(/\D/g, "")) || 0) *
+                        item.quantity}
                     </p>
                   </div>
                 ))}
@@ -201,11 +213,7 @@ Cash On Delivery (COD)
                     <span>Total Items</span>
 
                     <span>
-                      {cart.reduce(
-                        (sum, item) =>
-                          sum + item.quantity,
-                        0
-                      )}
+                      {cart.reduce((sum, item) => sum + item.quantity, 0)}
                     </span>
                   </div>
 

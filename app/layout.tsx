@@ -14,10 +14,33 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "JOYA Medical & General Store | Veterinary Medicines & Feed Supplements",
+export const metadata: Metadata = {
+  title:
+    "JOYA Medical & General Store | Veterinary Medicines & Animal Healthcare",
+
   description:
-    "Buy genuine veterinary medicines, feed supplements and animal healthcare products from JOYA Medical & General Store.",
+    "Buy genuine veterinary medicines, feed supplements, animal healthcare products, calcium, dewormers and livestock medicines from JOYA Medical & General Store, Niwali.",
+
+  keywords: [
+    "Veterinary Medicines",
+    "Animal Healthcare",
+    "Feed Supplements",
+    "Cattle Medicine",
+    "Goat Medicine",
+    "Livestock Products",
+    "JOYA Medical",
+    "Niwali Veterinary Store",
+    "Veterinary Store MP",
+  ],
+
+  openGraph: {
+    title: "JOYA Medical & General Store",
+    description:
+      "Trusted Veterinary Medicines & Animal Healthcare Products in Niwali.",
+    siteName: "JOYA Medical & General Store",
+    locale: "en_IN",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -32,9 +55,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Toaster position="top-right" />
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

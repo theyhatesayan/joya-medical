@@ -42,6 +42,17 @@ export default function ContactSection() {
               Order On WhatsApp
             </a>
           </div>
+
+          <div className="text-center mt-4">
+            <a
+              href="https://maps.app.goo.gl/xBM4yuscCYZqVkcD8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-2xl font-bold text-lg transition text-white"
+            >
+              📍 Open In Google Maps
+            </a>
+          </div>
         </div>
       </section>
     </FadeUp>

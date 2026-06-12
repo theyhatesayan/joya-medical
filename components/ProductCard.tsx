@@ -50,7 +50,13 @@ export default function ProductCard() {
 
   return (
     <section id="products" className="max-w-7xl mx-auto px-6 py-20">
-      <h2 className="text-4xl font-bold text-center mb-8">Our Products</h2>
+      <div className="text-center mb-8">
+        <h2 className="text-4xl font-bold">Our Products</h2>
+
+        <p className="text-slate-500 mt-2">
+          {filteredProducts.length} Products Available
+        </p>
+      </div>
 
       <SearchBar search={search} setSearch={setSearch} />
 
@@ -71,15 +77,24 @@ export default function ProductCard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredProducts.length === 0 && (
+          <div className="col-span-full text-center py-10">
+            <h3 className="text-2xl font-bold text-slate-600">
+              No Products Found 😔
+            </h3>
+          </div>
+        )}
         {filteredProducts.map((product) => (
           <FadeUp key={product.id}>
             <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-teal-600 hover:shadow-xl transition-all duration-300 flex flex-col">
               <div className="relative h-72 bg-white border-b">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-contain p-4"
-                />
+                {product.image ? (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-contain"
+                  />
+                ) : null}
               </div>
 
               <div className="p-6 flex flex-col grow">

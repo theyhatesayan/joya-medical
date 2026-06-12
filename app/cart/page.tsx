@@ -8,7 +8,8 @@ export default function CartPage() {
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCart();
 
   const total = cart.reduce((sum, item) => {
-    return sum + Number(item.price.replace("₹", "")) * item.quantity;
+    const price = parseInt(String(item.price).replace(/\D/g, "")) || 0;
+    return sum + price * item.quantity;
   }, 0);
 
   return (
@@ -42,12 +43,18 @@ export default function CartPage() {
                   <div className="grid md:grid-cols-2 items-center">
                     <div className="p-6 flex items-center justify-center bg-white">
                       <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-contain"
-                        />
+                        {item.image ? (
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-contain"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400">
+                            No Image
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -56,7 +63,9 @@ export default function CartPage() {
                         Premium Product
                       </span>
 
-                      <h2 className="text-2xl md:text-4xl font-black mt-2">{item.name}</h2>
+                      <h2 className="text-2xl md:text-4xl font-black mt-2">
+                        {item.name}
+                      </h2>
 
                       <p className="text-2xl md:text-3xl font-bold text-teal-700 mt-3">
                         {item.price}
@@ -84,7 +93,8 @@ export default function CartPage() {
 
                       <p className="mt-6 text-xl font-semibold">
                         Subtotal: ₹
-                        {Number(item.price.replace("₹", "")) * item.quantity}
+                        {(parseInt(String(item.price).replace(/\D/g, "")) ||
+                          0) * item.quantity}
                       </p>
 
                       <button
@@ -118,7 +128,9 @@ export default function CartPage() {
                 <div className="flex justify-between items-center">
                   <span className="text-xl">Total</span>
 
-                  <span className="text-2xl md:text-4xl font-black">₹{total}</span>
+                  <span className="text-2xl md:text-4xl font-black">
+                    ₹{total}
+                  </span>
                 </div>
 
                 <Link
