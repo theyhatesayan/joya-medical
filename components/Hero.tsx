@@ -13,7 +13,6 @@ export default function Hero() {
       <div className="relative z-10 flex items-center min-h-[85vh] lg:min-h-screen">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 w-full">
           <div className="max-w-3xl">
-
             <span className="inline-flex items-center bg-teal-600/90 backdrop-blur-sm text-white px-5 py-3 rounded-full text-sm md:text-base font-semibold shadow-lg">
               🐐 Trusted Veterinary Products
             </span>
@@ -21,14 +20,12 @@ export default function Hero() {
             <h1 className="mt-6 text-5xl md:text-6xl lg:text-8xl font-black text-white leading-[1.05]">
               JOYA Medical
               <br />
-              <span className="text-teal-300">
-                & General Store
-              </span>
+              <span className="text-teal-300">& General Store</span>
             </h1>
 
             <p className="mt-6 text-base md:text-xl lg:text-2xl text-gray-200 leading-relaxed max-w-2xl">
-              Premium veterinary products for stronger immunity,
-              better health and faster growth of your goats.
+              Premium veterinary products for stronger immunity, better health
+              and faster growth of your goats.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-10">
@@ -40,42 +37,31 @@ export default function Hero() {
               </a>
 
               <a
-                href="/cart"
-                className="text-center bg-white/95 hover:bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 shadow-xl"
+                href="https://wa.me/919669913326"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-center bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 hover:scale-105 shadow-xl"
               >
-                View Cart
+                💬 Order on WhatsApp
               </a>
             </div>
 
             <div className="flex flex-wrap gap-8 mt-12 text-white">
               <div>
-                <h3 className="text-3xl font-black">
-                  100%
-                </h3>
-                <p className="text-gray-300">
-                  Genuine Products
-                </p>
+                <h3 className="text-3xl font-black">100%</h3>
+                <p className="text-gray-300">Genuine Products</p>
               </div>
 
               <div>
-                <h3 className="text-3xl font-black">
-                  COD
-                </h3>
-                <p className="text-gray-300">
-                  Available
-                </p>
+                <h3 className="text-3xl font-black">COD</h3>
+                <p className="text-gray-300">Available</p>
               </div>
 
               <div>
-                <h3 className="text-3xl font-black">
-                  Fast
-                </h3>
-                <p className="text-gray-300">
-                  WhatsApp Order
-                </p>
+                <h3 className="text-3xl font-black">Fast</h3>
+                <p className="text-gray-300">WhatsApp Order</p>
               </div>
             </div>
-
           </div>
         </div>
       </div>
