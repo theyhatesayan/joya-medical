@@ -21,36 +21,17 @@ export default function ReviewsPage() {
     }
   }
 
-  async function updateStatus(id: number, status: string) {
+ async function updateStatus(id: number, status: string) {
   const { data, error } = await supabase
     .from("reviews")
     .update({ status })
     .eq("id", id)
-    .select();
+    .select("*");
 
   console.log("Updated:", data);
   console.log("Error:", error);
 
-  if (!error) {
-    fetchReviews();
-  }
-}
-
- async function approveReview(id: number) {
-  console.log("Approve Clicked:", id);
-
-  const { data, error } = await supabase
-    .from("reviews")
-    .update({ status: "Approved" })
-    .eq("id", id)
-    .select();
-
-  console.log(data);
-  console.log(error);
-
-  if (!error) {
-    fetchReviews();
-  }
+  fetchReviews();
 }
 
 async function deleteReview(id: number) {
@@ -59,11 +40,9 @@ async function deleteReview(id: number) {
     .delete()
     .eq("id", id);
 
-  console.log(error);
+  console.log("Delete Error:", error);
 
-  if (!error) {
-    fetchReviews();
-  }
+  fetchReviews();
 }
   return (
     <div>
