@@ -40,6 +40,8 @@ export default function Reviews() {
   const [averageRating, setAverageRating] = useState(5);
   const [totalReviews, setTotalReviews] = useState(0);
 
+  const [showAll, setShowAll] = useState(false);
+
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -48,14 +50,13 @@ export default function Reviews() {
     const { data } = await supabase
       .from("reviews")
       .select("*")
-      .order("created_at", { ascending: false });
+      .eq("status", "Approved");
 
     if (data && data.length > 0) {
       setReviews(data);
 
       const avg =
-        data.reduce((sum, item) => sum + item.rating, 0) /
-        data.length;
+        data.reduce((sum, item) => sum + item.rating, 0) / data.length;
 
       setAverageRating(Number(avg.toFixed(1)));
       setTotalReviews(data.length);
@@ -74,9 +75,7 @@ export default function Reviews() {
 
       <div className="flex flex-col items-center mt-4 mb-12">
         <div className="flex items-center gap-2">
-          <span className="text-yellow-500 text-2xl">
-            ⭐⭐⭐⭐⭐
-          </span>
+          <span className="text-yellow-500 text-2xl">⭐⭐⭐⭐⭐</span>
 
           <span className="font-bold text-xl text-slate-900">
             {averageRating}/5
@@ -89,7 +88,7 @@ export default function Reviews() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {reviews.map((review, index) => (
+        {(showAll ? reviews : reviews.slice(0, 5)).map((review, index) => (
           <div
             key={`${review.id}-${index}`}
             className="bg-white rounded-[32px] p-8 shadow-xl hover:shadow-2xl border border-slate-100 transition-all duration-300 hover:-translate-y-1"
@@ -116,18 +115,26 @@ export default function Reviews() {
               </div>
 
               <div>
-                <h3 className="font-bold text-slate-900">
-                  {review.name}
-                </h3>
+                <h3 className="font-bold text-slate-900">{review.name}</h3>
+                <p className="text-xs text-slate-400">Verified Purchase</p>
 
-                <p className="text-sm text-slate-500">
-                  {review.city}
-                </p>
+                <p className="text-sm text-slate-500">{review.city}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {reviews.length > 5 && (
+        <div className="text-center mt-10">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold"
+          >
+            {showAll ? "Show Less" : "View More Reviews"}
+          </button>
+        </div>
+      )}
     </section>
   );
 }

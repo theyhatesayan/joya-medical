@@ -1,18 +1,11 @@
 "use client";
 
-import Image from "next/image";
-
-export default function ProductModal({
-  product,
-  onClose,
-  addToCart,
-}: any) {
+export default function ProductModal({ product, onClose, addToCart }: any) {
   if (!product) return null;
 
-  const benefits =
-    Array.isArray(product.benefits)
-      ? product.benefits
-      : typeof product.benefits === "string"
+  const benefits = Array.isArray(product.benefits)
+    ? product.benefits
+    : typeof product.benefits === "string"
       ? product.benefits
           .split("\n")
           .filter((item: string) => item.trim() !== "")
@@ -24,11 +17,10 @@ export default function ProductModal({
         <div className="grid md:grid-cols-2">
           {/* Product Image */}
           <div className="relative h-[180px] sm:h-[220px] md:h-[500px] bg-slate-50">
-            <Image
+            <img
               src={product.image || "/images/placeholder.jpg"}
               alt={product.name}
-              fill
-              className="object-contain p-6 md:p-8"
+              className="w-full h-full object-contain p-6 md:p-8"
             />
           </div>
 
@@ -51,6 +43,10 @@ export default function ProductModal({
 
             <p className="text-3xl text-teal-700 font-bold mt-3">
               ₹{product.price}
+            </p>
+
+            <p className="mt-2 text-slate-500 font-medium">
+              Category: {product.category}
             </p>
 
             {benefits.length > 0 && (

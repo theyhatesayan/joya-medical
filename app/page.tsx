@@ -13,7 +13,6 @@ import Faq from "../components/Faq";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
 import WhatsappButton from "../components/WhatsappButton";
-import FloatingCart from "../components/FloatingCart";
 import Loader from "../components/Loader";
 
 export default function Home() {
