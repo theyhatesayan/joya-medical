@@ -43,29 +43,20 @@ export default function OrdersPage() {
   }
 
   async function updateStatus(id: number, newStatus: string) {
-    const currentOrder = orders.find((order) => order.id === id);
+    console.log("Updating:", id, newStatus);
 
-    if (!currentOrder) return;
-
-    if (
-      currentOrder.status === "Delivered" ||
-      currentOrder.status === "Cancelled"
-    ) {
-      alert("Final Status Change Nahi Kar Sakte");
-      return;
-    }
-
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("orders")
       .update({ status: newStatus })
-      .eq("id", id);
+      .eq("id", id)
+      .select("*");
 
-    if (error) {
-      console.log(error);
-      return;
+    console.log(data);
+    console.log(error);
+
+    if (!error) {
+      fetchOrders();
     }
-
-    fetchOrders();
   }
 
   return (
