@@ -37,7 +37,7 @@ export default function Home() {
       <TrustedSection />
       <StatsSection />
       <FeaturedProducts />
-      <Reviews />
+      <Reviews limit={3} />
       <div className="text-center py-10">
         <a
           href="#review-form"

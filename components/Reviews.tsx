@@ -35,12 +35,14 @@ const fallbackReviews = [
   },
 ];
 
-export default function Reviews() {
+export default function Reviews({
+  limit,
+}: {
+  limit?: number;
+}) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [averageRating, setAverageRating] = useState(5);
   const [totalReviews, setTotalReviews] = useState(0);
-
-  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetchReviews();
@@ -67,6 +69,10 @@ export default function Reviews() {
     }
   }
 
+  const displayedReviews = limit
+  ? reviews.slice(0, limit)
+  : reviews;
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
       <h2 className="text-4xl md:text-5xl font-black text-center text-slate-900">
@@ -88,7 +94,7 @@ export default function Reviews() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {(showAll ? reviews : reviews.slice(0, 5)).map((review, index) => (
+        {displayedReviews.map((review, index) => (
           <div
             key={`${review.id}-${index}`}
             className="bg-white rounded-[32px] p-8 shadow-xl hover:shadow-2xl border border-slate-100 transition-all duration-300 hover:-translate-y-1"
@@ -125,14 +131,14 @@ export default function Reviews() {
         ))}
       </div>
 
-      {reviews.length > 5 && (
+      {reviews.length > 3 && (
         <div className="text-center mt-10">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="bg-teal-600 text-white px-6 py-3 rounded-xl font-semibold"
+          <a
+            href="/reviews"
+            className="inline-block bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-2xl font-bold transition"
           >
-            {showAll ? "Show Less" : "View More Reviews"}
-          </button>
+            View All Reviews →
+          </a>
         </div>
       )}
     </section>
