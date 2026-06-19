@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import TrustedSection from "../components/TrustedSection";
 import StatsSection from "../components/StatsSection";
-import ProductCard from "../components/ProductCard";
+import FeaturedProducts from "../components/FeaturedProducts";
 import Reviews from "../components/Reviews";
 import ReviewForm from "../components/ReviewForm";
 import Faq from "../components/Faq";
@@ -36,7 +36,7 @@ export default function Home() {
       <Hero />
       <TrustedSection />
       <StatsSection />
-      <ProductCard />
+      <FeaturedProducts />
       <Reviews />
       <div className="text-center py-10">
         <a

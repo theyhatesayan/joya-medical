@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import SearchBar from "./SearchBar";
@@ -19,7 +18,13 @@ type Product = {
   benefits: string;
 };
 
-export default function ProductCard() {
+export default function ProductCard({
+  limit,
+  showFilters = true,
+}: {
+  limit?: number;
+  showFilters?: boolean;
+}) {
   const { addToCart } = useCart();
 
   const [search, setSearch] = useState("");
@@ -48,6 +53,10 @@ export default function ProductCard() {
       (category === "All" || product.category === category),
   );
 
+  const displayedProducts = limit
+    ? filteredProducts.slice(0, limit)
+    : filteredProducts;
+
   return (
     <section id="products" className="max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-8">
@@ -58,23 +67,25 @@ export default function ProductCard() {
         </p>
       </div>
 
-      <SearchBar search={search} setSearch={setSearch} />
+      {showFilters && <SearchBar search={search} setSearch={setSearch} />}
 
-      <div className="flex flex-wrap justify-center gap-3 mb-10">
-        {["All", ...new Set(products.map((p) => p.category))].map((item) => (
-          <button
-            key={item}
-            onClick={() => setCategory(item)}
-            className={`px-5 py-2 rounded-full font-semibold transition ${
-              category === item
-                ? "bg-teal-700 text-white"
-                : "bg-slate-100 text-slate-700"
-            }`}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
+      {showFilters && (
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {["All", ...new Set(products.map((p) => p.category))].map((item) => (
+            <button
+              key={item}
+              onClick={() => setCategory(item)}
+              className={`px-5 py-2 rounded-full font-semibold transition ${
+                category === item
+                  ? "bg-teal-700 text-white"
+                  : "bg-slate-100 text-slate-700"
+              }`}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProducts.length === 0 && (
@@ -84,7 +95,7 @@ export default function ProductCard() {
             </h3>
           </div>
         )}
-        {filteredProducts.map((product) => (
+        {displayedProducts.map((product) => (
           <FadeUp key={product.id}>
             <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-teal-600 hover:shadow-xl transition-all duration-300 flex flex-col">
               <div className="relative h-96 bg-white border-b p-4">
